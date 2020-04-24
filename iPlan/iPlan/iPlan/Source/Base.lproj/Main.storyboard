@@ -25,7 +25,7 @@
                                             <constraint firstAttribute="width" secondItem="iea-Zm-dKW" secondAttribute="height" multiplier="1:1" id="Gyj-Gy-rje"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mq5-TY-se7" customClass="DotGraph" customModule="iPlan" customModuleProvider="target">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mq5-TY-se7" customClass="DotGraph" customModule="iPlan" customModuleProvider="target">
                                         <rect key="frame" x="20" y="20" width="374" height="160"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <userDefinedRuntimeAttributes>
@@ -44,6 +44,9 @@
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="offset">
                                                 <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="labelSize">
+                                                <real key="value" value="12"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>

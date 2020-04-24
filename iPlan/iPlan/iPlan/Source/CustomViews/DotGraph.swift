@@ -12,8 +12,10 @@ import UIKit
 class DotGraph: UIView {
 
     var graphValues: [CGFloat] = [40, 25, 60, 40, 50, 80, 30]
+    var xAxesValues: [String] = ["M","T","W","T","F","S","S"]
     
     private var graphPoints: [(location: CGPoint, value: CGFloat)] = []
+    private var xAxesLabels: [UILabel] = []
     
     @IBInspectable var topColor: UIColor = .white
     @IBInspectable var bottomColor: UIColor = .yellow
@@ -21,6 +23,8 @@ class DotGraph: UIView {
     @IBInspectable var hasBackgroundGradient: Bool = false
     @IBInspectable var pointDiameter: CGFloat = 5
     @IBInspectable var offset: CGFloat = 5
+    @IBInspectable var labelSize: CGFloat = 12
+    
     
     private lazy var gradient: CGGradient? = {
         let colors = [topColor.cgColor, bottomColor.cgColor]
@@ -28,7 +32,21 @@ class DotGraph: UIView {
         let colorLocations: [CGFloat] = [0.0, 1.0]
         return CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: colorLocations)
     }()
-        
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        addXAxesLabels()
+    }
+    
+    private var currentFrame: CGRect = .zero
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if frame != currentFrame {
+            addXAxesLabels()
+            currentFrame = frame
+        }
+    }
+    
     override func draw(_ rect: CGRect) {
         graphPoints = generatePoints()
         let context = UIGraphicsGetCurrentContext()
@@ -42,15 +60,31 @@ class DotGraph: UIView {
         
     }
     
+    private func addXAxesLabels() {
+        xAxesLabels.forEach { $0.removeFromSuperview() }
+        let horizontalSpace = (bounds.width - 2 * offset)/CGFloat(xAxesLabels.count-1)
+        var labels: [UILabel] = []
+        for (index, value) in xAxesValues.enumerated() {
+            let label = UILabel()
+            label.font = label.font.withSize(labelSize)
+            label.text = value
+            label.sizeToFit()
+            label.frame.origin = CGPoint(x: offset + CGFloat(index) * horizontalSpace - label.bounds.width/2, y: 0)
+            labels.append(label)
+            self.addSubview(label)
+        }
+        xAxesLabels = labels
+    }
+    
     private func generatePoints() -> [(location: CGPoint, value: CGFloat)] {
         let graphWidth = bounds.width - 2 * offset
-        let graphHeight = bounds.height - 2 * offset
+        let graphHeight = bounds.height - 2 * offset - labelSize
         
         var points: [(location: CGPoint, value: CGFloat)] = []
         for (index, value) in graphValues.enumerated() {
             let horizontalSpacing = graphWidth/CGFloat(self.graphValues.count-1)
             let verticalUnit = graphHeight/100
-            points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset - verticalUnit * value ), value))
+            points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset + labelSize - verticalUnit * value ), value))
         }
         return points
     }
@@ -101,21 +135,22 @@ class DotGraph: UIView {
     
     private func drawLines() {
         let linePath = UIBezierPath()
-        let lineVerticalSpace: CGFloat = (bounds.height - 2 * offset)/4
-        linePath.move(to: CGPoint(x: offset, y: offset))
-        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: offset))
+        let lineVerticalSpace: CGFloat = (bounds.height - 2 * offset - labelSize)/4
+        let topOffset: CGFloat = offset + labelSize
+        linePath.move(to: CGPoint(x: offset, y: topOffset))
+        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: topOffset))
         
-        linePath.move(to: CGPoint(x: offset, y: offset + lineVerticalSpace))
-        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: offset + lineVerticalSpace))
+        linePath.move(to: CGPoint(x: offset, y: topOffset + lineVerticalSpace))
+        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: topOffset + lineVerticalSpace))
         
-        linePath.move(to: CGPoint(x: offset, y: offset + lineVerticalSpace * 2))
-        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: offset + lineVerticalSpace * 2))
+        linePath.move(to: CGPoint(x: offset, y: topOffset + lineVerticalSpace * 2))
+        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: topOffset + lineVerticalSpace * 2))
         
-        linePath.move(to: CGPoint(x: offset, y: offset + lineVerticalSpace * 3))
-        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: offset + lineVerticalSpace * 3))
+        linePath.move(to: CGPoint(x: offset, y: topOffset + lineVerticalSpace * 3))
+        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: topOffset + lineVerticalSpace * 3))
         
-        linePath.move(to: CGPoint(x: offset, y: offset + lineVerticalSpace * 4))
-        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: offset + lineVerticalSpace * 4))
+        linePath.move(to: CGPoint(x: offset, y: topOffset + lineVerticalSpace * 4))
+        linePath.addLine(to: CGPoint(x: bounds.width - offset, y: topOffset + lineVerticalSpace * 4))
         
         topColor.withAlphaComponent(0.2).setStroke()
             
