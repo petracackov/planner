@@ -23,6 +23,7 @@
 		C06E2C02243BDE4700B72558 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06E2C01243BDE4700B72558 /* Item.swift */; };
 		C06E2C04243CAA7D00B72558 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06E2C03243CAA7D00B72558 /* AuthenticationViewController.swift */; };
 		C06E2C07243CCE4C00B72558 /* PercentSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06E2C06243CCE4C00B72558 /* PercentSlider.swift */; };
+		C0A4331B2451ED92002E5ABC /* DotGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A4331A2451ED92002E5ABC /* DotGraph.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		C06E2C01243BDE4700B72558 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		C06E2C03243CAA7D00B72558 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		C06E2C06243CCE4C00B72558 /* PercentSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentSlider.swift; sourceTree = "<group>"; };
+		C0A4331A2451ED92002E5ABC /* DotGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotGraph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +88,7 @@
 		C06E2BE8243B535C00B72558 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				C06E2C05243CCE2600B72558 /* CustomRoundSlider */,
+				C06E2C05243CCE2600B72558 /* CustomViews */,
 				C06E2BF6243B9E8A00B72558 /* Data */,
 				C06E2BEA243B537D00B72558 /* Main */,
 				C06E2BDA243B532B00B72558 /* Main.storyboard */,
@@ -137,12 +139,13 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		C06E2C05243CCE2600B72558 /* CustomRoundSlider */ = {
+		C06E2C05243CCE2600B72558 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
 				C06E2C06243CCE4C00B72558 /* PercentSlider.swift */,
+				C0A4331A2451ED92002E5ABC /* DotGraph.swift */,
 			);
-			path = CustomRoundSlider;
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +227,7 @@
 				C06E2BF0243B630600B72558 /* CollectionViewCell.swift in Sources */,
 				C06E2BEC243B53EA00B72558 /* ViewController.swift in Sources */,
 				C06E2BEE243B582700B72558 /* TableViewCell.swift in Sources */,
+				C0A4331B2451ED92002E5ABC /* DotGraph.swift in Sources */,
 				C06E2BD5243B532B00B72558 /* AppDelegate.swift in Sources */,
 				C06E2BFA243BD93B00B72558 /* Wish.swift in Sources */,
 				C06E2BF8243B9ED400B72558 /* Goal.swift in Sources */,

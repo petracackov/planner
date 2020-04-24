@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8wL-vZ-GO3">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,10 +16,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Ko-Ur-u6G">
-                                <rect key="frame" x="0.0" y="108" width="414" height="160"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="200"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mq5-TY-se7" customClass="DotGraph" customModule="iPlan" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="20" width="374" height="160"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
+                                                <color key="value" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="topColor">
+                                                <color key="value" red="0.22546573219999999" green="0.64446818699999997" blue="0.24972355739999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
+                                                <color key="value" red="0.22546573219999999" green="0.64446818699999997" blue="0.24972355739999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="hasBackgroundGradient" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="pointDiameter">
+                                                <real key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iea-Zm-dKW" customClass="PercentSlider" customModule="iPlan" customModuleProvider="target">
-                                        <rect key="frame" x="127" y="0.0" width="160" height="160"/>
+                                        <rect key="frame" x="127" y="20" width="160" height="160"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="iea-Zm-dKW" secondAttribute="height" multiplier="1:1" id="Gyj-Gy-rje"/>
@@ -28,10 +47,14 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Mq5-TY-se7" secondAttribute="trailing" constant="20" id="5LR-LT-x0P"/>
                                     <constraint firstItem="iea-Zm-dKW" firstAttribute="centerX" secondItem="6Ko-Ur-u6G" secondAttribute="centerX" id="7UX-0l-rtj"/>
-                                    <constraint firstAttribute="bottom" secondItem="iea-Zm-dKW" secondAttribute="bottom" id="Gsn-gN-lXS"/>
-                                    <constraint firstAttribute="height" constant="160" id="ahO-tH-juk"/>
-                                    <constraint firstItem="iea-Zm-dKW" firstAttribute="top" secondItem="6Ko-Ur-u6G" secondAttribute="top" id="l0i-Mw-eTq"/>
+                                    <constraint firstItem="Mq5-TY-se7" firstAttribute="top" secondItem="6Ko-Ur-u6G" secondAttribute="top" constant="20" id="GaX-YO-xEz"/>
+                                    <constraint firstAttribute="bottom" secondItem="iea-Zm-dKW" secondAttribute="bottom" constant="20" id="Gsn-gN-lXS"/>
+                                    <constraint firstAttribute="bottom" secondItem="Mq5-TY-se7" secondAttribute="bottom" constant="20" id="K3T-mS-r8e"/>
+                                    <constraint firstAttribute="height" constant="200" id="ahO-tH-juk"/>
+                                    <constraint firstItem="Mq5-TY-se7" firstAttribute="leading" secondItem="6Ko-Ur-u6G" secondAttribute="leading" constant="20" id="bnv-TR-j2b"/>
+                                    <constraint firstItem="iea-Zm-dKW" firstAttribute="top" secondItem="6Ko-Ur-u6G" secondAttribute="top" constant="20" id="l0i-Mw-eTq"/>
                                 </constraints>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="8D4-KX-9ML">
@@ -76,11 +99,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9uu-U3-U3l" secondAttribute="trailing" id="B5H-wG-7IB"/>
-                            <constraint firstItem="8D4-KX-9ML" firstAttribute="top" secondItem="6Ko-Ur-u6G" secondAttribute="bottom" constant="20" id="DM9-B9-0O4"/>
+                            <constraint firstItem="8D4-KX-9ML" firstAttribute="top" secondItem="6Ko-Ur-u6G" secondAttribute="bottom" id="DM9-B9-0O4"/>
                             <constraint firstItem="6Ko-Ur-u6G" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="IPr-yh-PVM"/>
                             <constraint firstItem="9uu-U3-U3l" firstAttribute="top" secondItem="8D4-KX-9ML" secondAttribute="bottom" constant="5" id="ISd-Aj-7fM"/>
                             <constraint firstAttribute="bottom" secondItem="9uu-U3-U3l" secondAttribute="bottom" id="Pbu-oY-YBb"/>
-                            <constraint firstItem="6Ko-Ur-u6G" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Tlh-KZ-RPM"/>
+                            <constraint firstItem="6Ko-Ur-u6G" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Tlh-KZ-RPM"/>
                             <constraint firstItem="8D4-KX-9ML" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="a71-ts-qaE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6Ko-Ur-u6G" secondAttribute="trailing" id="b6U-4k-lfL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8D4-KX-9ML" secondAttribute="trailing" constant="5" id="i33-bV-Oil"/>
@@ -110,8 +133,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="9uu-U3-U3l" id="iUp-tw-AjS"/>
+                        <outlet property="dotGraph" destination="Mq5-TY-se7" id="Ncr-f1-8YR"/>
                         <outlet property="percentSlider" destination="iea-Zm-dKW" id="2je-t1-ZLY"/>
                         <outlet property="segmentedControl" destination="8D4-KX-9ML" id="KOV-AS-hP8"/>
+                        <outlet property="statsContainer" destination="6Ko-Ur-u6G" id="ZOx-aU-Yng"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

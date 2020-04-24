@@ -12,10 +12,13 @@ class ViewController: UIViewController {
     
     @IBOutlet private var collectionView: UICollectionView?
     @IBOutlet private var segmentedControl: UISegmentedControl?
+    @IBOutlet private var statsContainer: UIView?
     @IBOutlet private var percentSlider: PercentSlider?
+    @IBOutlet private var dotGraph: DotGraph?
     
     private var currentScreen: Screen = .daily
     private var swipeTriggered: Bool = false
+    private var isDotGraphShowing: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,12 +28,24 @@ class ViewController: UIViewController {
         Task.loadProjects()
         Wish.loadProjects()
         updateSlider()
+        statsContainer?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(switchGraph(_:))))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         collectionView?.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
     }
     
-    @IBAction func segmentedControlIndexChanged(_ sender: Any) {
+    @IBAction private func segmentedControlIndexChanged(_ sender: Any) {
         moveToIndex(segmentedControl?.selectedSegmentIndex)
+    }
+    
+    @objc private func switchGraph(_ sender: UITapGestureRecognizer?) {
+        guard let dotGraph = dotGraph, let percentSlider = percentSlider else { return }
+        if isDotGraphShowing {
+            UIView.transition(from: dotGraph, to: percentSlider, duration: 1, options: [.transitionFlipFromLeft, .showHideTransitionViews], completion: nil)
+        } else {
+            UIView.transition(from: percentSlider, to: dotGraph, duration: 1, options: [.transitionFlipFromLeft, .showHideTransitionViews], completion: nil)
+        }
+        
+        isDotGraphShowing = !isDotGraphShowing
     }
     
     @objc private func swipe(_ sender: UIScreenEdgePanGestureRecognizer) {
