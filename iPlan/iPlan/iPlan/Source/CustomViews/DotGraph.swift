@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 class DotGraph: UIView {
 
-    var graphValues: [CGFloat] = [40, 25, 60, 40, 50, 80, 30] {
+    var graphValuesInPercents: [CGFloat] = [0.4, 0.25, 0.60, 0.40, 0.50, 0.80, 0.30] {
         didSet {
             setNeedsDisplay()
         }
@@ -89,10 +89,9 @@ class DotGraph: UIView {
         let graphHeight = bounds.height - 2 * offset - labelSize
         
         var points: [(location: CGPoint, value: CGFloat)] = []
-        for (index, value) in graphValues.enumerated() {
-            let horizontalSpacing = graphWidth/CGFloat(self.graphValues.count-1)
-            let verticalUnit = graphHeight/100
-            points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset + labelSize - verticalUnit * value ), value))
+        for (index, value) in graphValuesInPercents.enumerated() {
+            let horizontalSpacing = graphWidth/CGFloat(self.graphValuesInPercents.count-1)
+            points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset + labelSize - graphHeight * value ), value))
         }
         return points
     }

@@ -86,6 +86,15 @@ class History {
             History.days = allDates
         }
     }
+    
+    static func daysInTheSameWeekAs(_ day: Day?) -> [Day]? {
+        guard let day = day else { return nil }
+        guard let historyDays = History.days else { return nil }
+        var calendar =  Calendar.current
+        calendar.firstWeekday = 2
+        return historyDays.filter { calendar.isDate(day.date, equalTo: $0.date, toGranularity:  .weekOfYear) }
+    }
+    
 }
 
 // MARK: - Mocked data:
@@ -95,10 +104,15 @@ extension History {
     static func addMockData() {
         let days = ["01.03.2020", "10.03.2020", "01.04.2020", "20.04.2020", "25.03.2020", "20.02.2020"].map { Day(date: DateTools.dateFromString(date: $0) ?? Date(), tasks: generateRandomTasks())}
         History.days = days
-        History.loadDays()
+        History.save()
     }
     
-    static func generateRandomTasks() -> [Task] {
+    static func cleanMockedData() {
+        History.days = []
+        History.save()
+    }
+    
+    static private func generateRandomTasks() -> [Task] {
         let randomNumber = Int.random(in: 1...10)
         var tasks: [Task] = []
         for number in 0...randomNumber {

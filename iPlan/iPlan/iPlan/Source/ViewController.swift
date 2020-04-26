@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     @IBOutlet private var dotGraph: DotGraph?
     
     private var currentScreen: Screen = .daily
-    private var currentDay: Day?
+    // TODO:
+    private var currentDay: Day? { History.days?.last }
     private var swipeTriggered: Bool = false
     private var isDotGraphShowing: Bool = false
     
@@ -30,6 +31,7 @@ class ViewController: UIViewController {
         Wish.loadProjects()
         History.loadDays()
         updateSlider()
+        updateDotGraph()
         statsContainer?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(switchGraph(_:))))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         collectionView?.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
@@ -129,13 +131,20 @@ class ViewController: UIViewController {
         let percent: CGFloat
         switch currentScreen {
         case .daily:
-            percent = Task.donePercent
+            //TODO:
+            //percent = Task.donePercent
+            percent = currentDay?.donePercent ?? 0
         case .goals:
             percent = Goal.donePercent
         case .wish:
             percent = Wish.donePercent
         }
         percentSlider?.update(with: percent)
+    }
+    
+    private func updateDotGraph() {
+        guard let currentWeekDays = History.daysInTheSameWeekAs(currentDay) else { return }
+        dotGraph?.graphValuesInPercents = currentWeekDays.map { $0.donePercent }
     }
     
     private func addGestureRecogniser() {
@@ -195,7 +204,7 @@ extension ViewController {
         var title: String {
             switch self {
             case .daily:
-                return "Daily routine"
+                return "Daily tasks"
             case .goals:
                 return "Goals"
             case .wish:
@@ -210,5 +219,6 @@ extension ViewController {
 extension ViewController: CollectionViewCellDelegate {
     func collectionViewCell(_ cell: CollectionViewCell, didSelectRow state: Bool, atIndexPath indexPath: IndexPath) {
         updateSlider()
+        updateDotGraph()
     }
 }

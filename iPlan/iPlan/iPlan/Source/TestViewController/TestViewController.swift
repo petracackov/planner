@@ -17,13 +17,15 @@ class TestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //addMockData()
+        History.cleanMockedData()
+        History.addMockData()
         setupData()
         
     }
     
     private func setupData() {
         History.loadDays()
+        print(History.days?.last)
         days = History.days
         let datesLabel = days?.compactMap { DateTools.dateToDescriptor(date: $0.date) }.joined(separator: ", ")
         label.text = datesLabel

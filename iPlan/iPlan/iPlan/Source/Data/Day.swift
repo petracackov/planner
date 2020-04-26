@@ -15,6 +15,7 @@ class Day {
     
     init(date: Date, tasks: [Task]? = nil) {
         self.date = date
+        self.tasks = tasks
     }
     
     convenience init?(descriptor: [String : Any]) {
@@ -28,6 +29,12 @@ class Day {
         descriptor["tasks"] = tasks?.compactMap { $0.descriptor }
         descriptor["date"] = DateTools.dateToDescriptor(date: date)
         return descriptor
+    }
+    
+    var donePercent: CGFloat {
+        guard let allItems = tasks else { return 0 }
+        let doneCount: CGFloat = CGFloat(allItems.filter { $0.isDone == true }.count)
+        return doneCount/CGFloat(allItems.count)
     }
 }
 

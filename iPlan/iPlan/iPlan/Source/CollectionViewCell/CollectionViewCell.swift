@@ -36,7 +36,9 @@ class CollectionViewCell: UICollectionViewCell {
     func refresh() {
         switch type {
         case .daily:
-            items = Task.allItems
+            // TODO:
+            //items = Task.allItems
+            items = History.days?.last?.tasks
         case .goals:
             items = Goal.allItems
         case .wish:
@@ -48,8 +50,11 @@ class CollectionViewCell: UICollectionViewCell {
     private func save() {
         switch type {
         case .daily:
-            Task.allItems = items as? [Task]
-            Task.saveProjects()
+//            Task.allItems = items as? [Task]
+//            Task.saveProjects()
+            // TODO:
+            History.days?.last?.tasks = items as? [Task]
+            History.save()
         case .goals:
             Goal.allItems = items as? [Goal]
             Goal.saveProjects()
