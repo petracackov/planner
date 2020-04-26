@@ -9,8 +9,7 @@
 import UIKit
 
 class Item {
-
-
+    
     var title: String
     var isDone: Bool?
     var dateCreated: Date

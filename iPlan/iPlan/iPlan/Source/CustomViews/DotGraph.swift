@@ -11,8 +11,16 @@ import UIKit
 @IBDesignable
 class DotGraph: UIView {
 
-    var graphValues: [CGFloat] = [40, 25, 60, 40, 50, 80, 30]
-    var xAxesValues: [String] = ["M","T","W","T","F","S","S"]
+    var graphValues: [CGFloat] = [40, 25, 60, 40, 50, 80, 30] {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    var xAxesValues: [String] = ["M","T","W","T","F","S","S"] {
+        didSet {
+            addXAxesLabels()
+        }
+    }
     
     private var graphPoints: [(location: CGPoint, value: CGFloat)] = []
     private var xAxesLabels: [UILabel] = []

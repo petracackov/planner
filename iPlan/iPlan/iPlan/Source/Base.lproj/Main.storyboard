@@ -215,6 +215,37 @@
             </objects>
             <point key="canvasLocation" x="-1014.4927536231885" y="-101.11607142857143"/>
         </scene>
+        <!--Test View Controller-->
+        <scene sceneID="N1w-ET-aaQ">
+            <objects>
+                <viewController storyboardIdentifier="TestViewController" id="iXq-nw-0ix" customClass="TestViewController" customModule="iPlan" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pIT-7B-6eB">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JFJ-Uz-iSe">
+                                <rect key="frame" x="20" y="443" width="374" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="JFJ-Uz-iSe" firstAttribute="centerY" secondItem="XUK-mO-AYt" secondAttribute="centerY" id="FQH-6L-vl0"/>
+                            <constraint firstItem="XUK-mO-AYt" firstAttribute="trailing" secondItem="JFJ-Uz-iSe" secondAttribute="trailing" constant="20" id="Xnj-zM-nf5"/>
+                            <constraint firstItem="JFJ-Uz-iSe" firstAttribute="leading" secondItem="XUK-mO-AYt" secondAttribute="leading" constant="20" id="r99-qL-Bpp"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="XUK-mO-AYt"/>
+                    </view>
+                    <connections>
+                        <outlet property="label" destination="JFJ-Uz-iSe" id="OD8-0q-gcq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O9r-1k-cqG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1014" y="607"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="yJy-kQ-6e7">
             <objects>

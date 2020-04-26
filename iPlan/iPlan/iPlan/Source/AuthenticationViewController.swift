@@ -25,9 +25,8 @@ class AuthenticationViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        goToViewController()
         //setupFaceID()
-        //goToViewController()
+        goToTestViewController()
     }
     
     @IBAction func useFaceID(_ sender: Any) {
@@ -70,5 +69,10 @@ class AuthenticationViewController: UIViewController {
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.modalTransitionStyle = .flipHorizontal
         self.present(navigationController, animated: true)
+    }
+    
+    private func goToTestViewController() {
+        let controller = storyboard?.instantiateViewController(identifier: "TestViewController") as! TestViewController
+        self.present(controller, animated: true)
     }
 }

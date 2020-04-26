@@ -24,6 +24,10 @@
 		C06E2C04243CAA7D00B72558 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06E2C03243CAA7D00B72558 /* AuthenticationViewController.swift */; };
 		C06E2C07243CCE4C00B72558 /* PercentSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C06E2C06243CCE4C00B72558 /* PercentSlider.swift */; };
 		C0A4331B2451ED92002E5ABC /* DotGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A4331A2451ED92002E5ABC /* DotGraph.swift */; };
+		C0A4331D2453401C002E5ABC /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A4331C2453401C002E5ABC /* Day.swift */; };
+		C0A4331F245597A6002E5ABC /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A4331E245597A6002E5ABC /* TestViewController.swift */; };
+		C0A433252455B671002E5ABC /* DateTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A433242455B671002E5ABC /* DateTools.swift */; };
+		C0A433272455B90B002E5ABC /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A433262455B90B002E5ABC /* History.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +50,10 @@
 		C06E2C03243CAA7D00B72558 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		C06E2C06243CCE4C00B72558 /* PercentSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentSlider.swift; sourceTree = "<group>"; };
 		C0A4331A2451ED92002E5ABC /* DotGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotGraph.swift; sourceTree = "<group>"; };
+		C0A4331C2453401C002E5ABC /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		C0A4331E245597A6002E5ABC /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		C0A433242455B671002E5ABC /* DateTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTools.swift; sourceTree = "<group>"; };
+		C0A433262455B90B002E5ABC /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +96,8 @@
 		C06E2BE8243B535C00B72558 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C0A433232455B65E002E5ABC /* Tools */,
+				C0A43320245597B2002E5ABC /* TestViewController */,
 				C06E2C05243CCE2600B72558 /* CustomViews */,
 				C06E2BF6243B9E8A00B72558 /* Data */,
 				C06E2BEA243B537D00B72558 /* Main */,
@@ -135,6 +145,8 @@
 				C06E2BF9243BD93B00B72558 /* Wish.swift */,
 				C06E2BFB243BD94E00B72558 /* Task.swift */,
 				C06E2C01243BDE4700B72558 /* Item.swift */,
+				C0A4331C2453401C002E5ABC /* Day.swift */,
+				C0A433262455B90B002E5ABC /* History.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -146,6 +158,22 @@
 				C0A4331A2451ED92002E5ABC /* DotGraph.swift */,
 			);
 			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		C0A43320245597B2002E5ABC /* TestViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C0A4331E245597A6002E5ABC /* TestViewController.swift */,
+			);
+			path = TestViewController;
+			sourceTree = "<group>";
+		};
+		C0A433232455B65E002E5ABC /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				C0A433242455B671002E5ABC /* DateTools.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,13 +249,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0A4331F245597A6002E5ABC /* TestViewController.swift in Sources */,
 				C06E2BFC243BD94E00B72558 /* Task.swift in Sources */,
 				C06E2C02243BDE4700B72558 /* Item.swift in Sources */,
 				C06E2C04243CAA7D00B72558 /* AuthenticationViewController.swift in Sources */,
 				C06E2BF0243B630600B72558 /* CollectionViewCell.swift in Sources */,
+				C0A433252455B671002E5ABC /* DateTools.swift in Sources */,
 				C06E2BEC243B53EA00B72558 /* ViewController.swift in Sources */,
 				C06E2BEE243B582700B72558 /* TableViewCell.swift in Sources */,
+				C0A4331D2453401C002E5ABC /* Day.swift in Sources */,
 				C0A4331B2451ED92002E5ABC /* DotGraph.swift in Sources */,
+				C0A433272455B90B002E5ABC /* History.swift in Sources */,
 				C06E2BD5243B532B00B72558 /* AppDelegate.swift in Sources */,
 				C06E2BFA243BD93B00B72558 /* Wish.swift in Sources */,
 				C06E2BF8243B9ED400B72558 /* Goal.swift in Sources */,

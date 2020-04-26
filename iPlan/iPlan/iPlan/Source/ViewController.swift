@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet private var dotGraph: DotGraph?
     
     private var currentScreen: Screen = .daily
+    private var currentDay: Day?
     private var swipeTriggered: Bool = false
     private var isDotGraphShowing: Bool = false
     
@@ -25,8 +26,9 @@ class ViewController: UIViewController {
         setupSegmentedControl()
         addGestureRecogniser()
         Goal.loadProjects()
-        Task.loadProjects()
+        //Task.loadProjects()
         Wish.loadProjects()
+        History.loadDays()
         updateSlider()
         statsContainer?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(switchGraph(_:))))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
@@ -81,9 +83,11 @@ class ViewController: UIViewController {
         let alert = UIAlertController(title: "Add new item", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Add to Daily routine", style: .default, handler: { (action) in
             if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
-                Task.allItems?.append(Task(title: title))
+                //Task.allItems?.append(Task(title: title))
+                self.currentDay?.tasks?.append(Task(title: title))
                 (self.collectionView?.cellForItem(at: IndexPath(row: Screen.daily.index, section: 0)) as? CollectionViewCell)?.refresh()
-                Task.saveProjects()
+                //Task.saveProjects()
+                History.save()
                 self.moveToIndex(Screen.daily.index)
             }
         }))
