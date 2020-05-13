@@ -28,5 +28,5 @@ class DateTools {
         guard let date = date else { return nil }
         return Calendar.current.startOfDay(for: date)
     }
-
+    
 }

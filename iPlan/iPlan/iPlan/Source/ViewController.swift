@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     @IBOutlet private var dotGraph: DotGraph?
     
     private var currentScreen: Screen = .daily
-    // TODO:
     private var currentDay: Day? { History.days?.last }
     private var swipeTriggered: Bool = false
     private var isDotGraphShowing: Bool = false
@@ -27,11 +26,11 @@ class ViewController: UIViewController {
         setupSegmentedControl()
         addGestureRecogniser()
         Goal.loadProjects()
-        //Task.loadProjects()
         Wish.loadProjects()
         History.loadDays()
         updateSlider()
         updateDotGraph()
+        dotGraph?.maxNumberOfValues = 7
         statsContainer?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(switchGraph(_:))))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         collectionView?.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
@@ -131,8 +130,6 @@ class ViewController: UIViewController {
         let percent: CGFloat
         switch currentScreen {
         case .daily:
-            //TODO:
-            //percent = Task.donePercent
             percent = currentDay?.donePercent ?? 0
         case .goals:
             percent = Goal.donePercent

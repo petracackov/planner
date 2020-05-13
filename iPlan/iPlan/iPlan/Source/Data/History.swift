@@ -10,11 +10,7 @@ import UIKit
 
 class History {
     
-    static var days: [Day]? {
-        didSet {
-            addMissingDates()
-        }
-    }
+    static var days: [Day]?
     
     private static var mainFilePath: String {
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path
@@ -34,10 +30,11 @@ class History {
             var days: [Day] = array.compactMap { Day(descriptor: $0) }
             
             if days.last?.date != DateTools.startOfTheDay(date: Date()) {
-                let tasks = days.last?.tasks
+                let tasks = days.last?.tasks?.compactMap { return  $0.copy() }
                 tasks?.forEach { $0.isDone = false }
                 days.append(Day(date: Date(), tasks: tasks))
             }
+            
             History.days = allDays(days: days)
         } catch {
             print(error)
@@ -79,13 +76,13 @@ class History {
         return allDays
     }
     
-    private static func addMissingDates() {
-        guard let days = days else { return }
-        let allDates = allDays(days: days.compactMap { $0 })
-        if allDates.count != days.count {
-            History.days = allDates
-        }
-    }
+//    private static func addMissingDates() {
+//        guard let days = days else { return }
+//        let allDates = allDays(days: days.compactMap { $0 })
+//        if allDates.count != days.count {
+//            History.days = allDates
+//        }
+//    }
     
     static func daysInTheSameWeekAs(_ day: Day?) -> [Day]? {
         guard let day = day else { return nil }
@@ -120,7 +117,6 @@ extension History {
             let randomDate = Calendar.current.date(byAdding: .day, value: -Int.random(in: 0...60), to: Date() ) ?? Date()
             tasks.append(Task(title: String(describing: number), isDone: randomState == 0 ? false : true, date: randomDate))
         }
-        
         return tasks
     }
 }

@@ -141,10 +141,10 @@
 		C06E2BF6243B9E8A00B72558 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				C06E2C01243BDE4700B72558 /* Item.swift */,
 				C06E2BF7243B9ED400B72558 /* Goal.swift */,
 				C06E2BF9243BD93B00B72558 /* Wish.swift */,
 				C06E2BFB243BD94E00B72558 /* Task.swift */,
-				C06E2C01243BDE4700B72558 /* Item.swift */,
 				C0A4331C2453401C002E5ABC /* Day.swift */,
 				C0A433262455B90B002E5ABC /* History.swift */,
 			);

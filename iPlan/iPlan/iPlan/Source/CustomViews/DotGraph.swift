@@ -11,6 +11,8 @@ import UIKit
 @IBDesignable
 class DotGraph: UIView {
 
+    var maxNumberOfValues: CGFloat = 1
+    
     var graphValuesInPercents: [CGFloat] = [0.4, 0.25, 0.60, 0.40, 0.50, 0.80, 0.30] {
         didSet {
             setNeedsDisplay()
@@ -90,7 +92,7 @@ class DotGraph: UIView {
         
         var points: [(location: CGPoint, value: CGFloat)] = []
         for (index, value) in graphValuesInPercents.enumerated() {
-            let horizontalSpacing = graphWidth/CGFloat(self.graphValuesInPercents.count-1)
+            let horizontalSpacing = graphWidth/CGFloat(self.maxNumberOfValues - 1)
             points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset + labelSize - graphHeight * value ), value))
         }
         return points
@@ -136,7 +138,6 @@ class DotGraph: UIView {
             
             let circle = UIBezierPath(ovalIn: CGRect(origin: pointOrigin, size: CGSize(width: pointDiameter, height: pointDiameter)))
             circle.fill()
-            
         }
     }
     
