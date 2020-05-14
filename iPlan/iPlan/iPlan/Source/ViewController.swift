@@ -96,10 +96,8 @@ class ViewController: UIViewController {
         let alert = UIAlertController(title: "Add new item", message: nil, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Add to Daily routine", style: .default, handler: { (action) in
             if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
-                //Task.allItems?.append(Task(title: title))
                 self.currentDay?.tasks.append(Task(title: title))
                 (self.collectionView?.cellForItem(at: IndexPath(row: Screen.daily.index, section: 0)) as? CollectionViewCell)?.refresh()
-                //Task.saveProjects()
                 History.save()
                 self.moveToIndex(Screen.daily.index)
             }

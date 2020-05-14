@@ -8,10 +8,13 @@
 
 import UIKit
 
+protocol DotGraphDelegate: class {
+    func dotGraph(_ graph: DotGraph, didSelectDot dotIndex: Int)
+}
+
 @IBDesignable
 class DotGraph: UIView {
 
-    var maxNumberOfValues: CGFloat = 1
     
     var graphValuesInPercents: [CGFloat] = [0.4, 0.25, 0.60, 0.40, 0.50, 0.80, 0.30] {
         didSet {
@@ -24,12 +27,18 @@ class DotGraph: UIView {
         }
     }
     
+    weak var delegate: DotGraphDelegate?
+    private(set) var selectedPointIndex: Int = 0
+    
     private var graphPoints: [(location: CGPoint, value: CGFloat)] = []
+    private var graphPointsViews: [UIView] = []
     private var xAxesLabels: [UILabel] = []
     
+    @IBInspectable var maxNumberOfValues: Int = 1
     @IBInspectable var topColor: UIColor = .white
     @IBInspectable var bottomColor: UIColor = .yellow
     @IBInspectable var lineColor: UIColor = .yellow
+    @IBInspectable var selectedColor: UIColor = .yellow
     @IBInspectable var hasBackgroundGradient: Bool = false
     @IBInspectable var pointDiameter: CGFloat = 5
     @IBInspectable var offset: CGFloat = 5
@@ -46,6 +55,7 @@ class DotGraph: UIView {
     override func awakeFromNib() {
         super.awakeFromNib()
         addXAxesLabels()
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapGesture(_:))))
     }
     
     private var currentFrame: CGRect = .zero
@@ -59,6 +69,7 @@ class DotGraph: UIView {
     
     override func draw(_ rect: CGRect) {
         graphPoints = generatePoints()
+        addPoints()
         let context = UIGraphicsGetCurrentContext()
         if let gradient = gradient, hasBackgroundGradient {
             let path = UIBezierPath(roundedRect: rect, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 8, height: 8))
@@ -68,6 +79,16 @@ class DotGraph: UIView {
         
         drawGraph(in: rect, context: context)
         
+    }
+    
+    @objc private func onTapGesture(_ sender: UITapGestureRecognizer) {
+        
+        for (index, pointView) in graphPointsViews.enumerated() {
+            let location = sender.location(in: pointView)
+            if pointView.bounds.contains(location) {
+                delegate?.dotGraph(self, didSelectDot: index)
+            }
+        }
     }
     
     private func addXAxesLabels() {
@@ -97,6 +118,30 @@ class DotGraph: UIView {
             points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset /* + labelSize*/ - graphHeight * value ), value))
         }
         return points
+    }
+    
+    private func addPoints() {
+        graphPointsViews.forEach { $0.removeFromSuperview() }
+        
+        for (index, point) in graphPoints.enumerated() {
+
+            let pointContainerView = UIView()
+            pointContainerView.backgroundColor = .clear
+            pointContainerView.frame.size = CGSize(width: pointDiameter * 2, height: pointDiameter * 2)
+            pointContainerView.layer.cornerRadius = pointContainerView.bounds.width/2
+            pointContainerView.center = point.location
+            pointContainerView.backgroundColor = index == selectedPointIndex ? selectedColor : lineColor
+
+            let pointView = UIView()
+            pointView.backgroundColor = lineColor
+            pointView.frame.size = CGSize(width: pointDiameter, height: pointDiameter)
+            pointView.layer.cornerRadius = pointView.bounds.width/2
+            pointView.center = CGPoint(x: pointContainerView.bounds.width/2, y: pointContainerView.bounds.height/2)
+
+            pointContainerView.addSubview(pointView)
+            graphPointsViews.append(pointContainerView)
+            self.addSubview(pointContainerView)
+        }
     }
     
     private func drawGraph(in rect: CGRect, context: CGContext?) {
@@ -132,14 +177,14 @@ class DotGraph: UIView {
         
         // points
         
-        for index in 0..<graphPoints.count {
-            var pointOrigin = graphPoints[index].location
-            pointOrigin.x -= pointDiameter/2
-            pointOrigin.y -= pointDiameter/2
-            
-            let circle = UIBezierPath(ovalIn: CGRect(origin: pointOrigin, size: CGSize(width: pointDiameter, height: pointDiameter)))
-            circle.fill()
-        }
+//        for index in 0..<graphPoints.count {
+//            var pointOrigin = graphPoints[index].location
+//            pointOrigin.x -= pointDiameter/2
+//            pointOrigin.y -= pointDiameter/2
+//
+//            let circle = UIBezierPath(ovalIn: CGRect(origin: pointOrigin, size: CGSize(width: pointDiameter, height: pointDiameter)))
+//            circle.fill()
+//        }
     }
     
     private func drawLines() {
@@ -166,5 +211,12 @@ class DotGraph: UIView {
         linePath.lineWidth = 1.0
         linePath.stroke()
         
+    }
+    
+    
+    func selectDot(atIndex index: Int) {
+        guard index <= maxNumberOfValues else { return }
+        selectedPointIndex = index
+        setNeedsDisplay()
     }
 }
