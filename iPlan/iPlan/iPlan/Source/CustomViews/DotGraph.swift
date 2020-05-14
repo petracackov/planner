@@ -73,13 +73,14 @@ class DotGraph: UIView {
     private func addXAxesLabels() {
         xAxesLabels.forEach { $0.removeFromSuperview() }
         let horizontalSpace = (bounds.width - 2 * offset)/CGFloat(xAxesLabels.count-1)
+        let yLocation = self.bounds.height - labelSize
         var labels: [UILabel] = []
         for (index, value) in xAxesValues.enumerated() {
             let label = UILabel()
             label.font = label.font.withSize(labelSize)
             label.text = value
             label.sizeToFit()
-            label.frame.origin = CGPoint(x: offset + CGFloat(index) * horizontalSpace - label.bounds.width/2, y: 0)
+            label.frame.origin = CGPoint(x: offset + CGFloat(index) * horizontalSpace - label.bounds.width/2, y: yLocation)
             labels.append(label)
             self.addSubview(label)
         }
@@ -93,7 +94,7 @@ class DotGraph: UIView {
         var points: [(location: CGPoint, value: CGFloat)] = []
         for (index, value) in graphValuesInPercents.enumerated() {
             let horizontalSpacing = graphWidth/CGFloat(self.maxNumberOfValues - 1)
-            points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset + labelSize - graphHeight * value ), value))
+            points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset /* + labelSize*/ - graphHeight * value ), value))
         }
         return points
     }
@@ -144,7 +145,7 @@ class DotGraph: UIView {
     private func drawLines() {
         let linePath = UIBezierPath()
         let lineVerticalSpace: CGFloat = (bounds.height - 2 * offset - labelSize)/4
-        let topOffset: CGFloat = offset + labelSize
+        let topOffset: CGFloat = offset /* + labelSize*/
         linePath.move(to: CGPoint(x: offset, y: topOffset))
         linePath.addLine(to: CGPoint(x: bounds.width - offset, y: topOffset))
         

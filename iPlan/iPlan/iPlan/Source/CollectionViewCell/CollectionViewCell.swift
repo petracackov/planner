@@ -53,8 +53,11 @@ class CollectionViewCell: UICollectionViewCell {
 //            Task.allItems = items as? [Task]
 //            Task.saveProjects()
             // TODO:
-            History.days?.last?.tasks = items as? [Task]
-            History.save()
+            if let tasks = items as? [Task] {
+                History.days?.last?.tasks = tasks
+                History.save()
+            }
+            
         case .goals:
             Goal.allItems = items as? [Goal]
             Goal.saveProjects()

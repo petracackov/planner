@@ -15,6 +15,9 @@ class ViewController: UIViewController {
     @IBOutlet private var statsContainer: UIView?
     @IBOutlet private var percentSlider: PercentSlider?
     @IBOutlet private var dotGraph: DotGraph?
+    @IBOutlet private var dotGraphContentView: UIStackView?
+    @IBOutlet private var previousWeekButton: UIButton?
+    @IBOutlet private var nextWeekButton: UIButton?
     
     private var currentScreen: Screen = .daily
     private var currentDay: Day? { History.days?.last }
@@ -24,14 +27,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSegmentedControl()
-        addGestureRecogniser()
+        addGestureRecognisers()
         Goal.loadProjects()
         Wish.loadProjects()
         History.loadDays()
         updateSlider()
         updateDotGraph()
         dotGraph?.maxNumberOfValues = 7
-        statsContainer?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(switchGraph(_:))))
+        
+        let startOfTheWeek = DateTools.startOfTheWeekString(includingDate: currentDay?.date)
+        let endOfTheWeek = DateTools.endOfTheWeekString(includingDate: currentDay?.date)
+        nextWeekButton?.setTitle(endOfTheWeek, for: .normal)
+        nextWeekButton?.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+        previousWeekButton?.setTitle(startOfTheWeek, for: .normal)
+        previousWeekButton?.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         collectionView?.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
     }
@@ -40,12 +50,14 @@ class ViewController: UIViewController {
         moveToIndex(segmentedControl?.selectedSegmentIndex)
     }
     
-    @objc private func switchGraph(_ sender: UITapGestureRecognizer?) {
-        guard let dotGraph = dotGraph, let percentSlider = percentSlider else { return }
+    @objc private func switchGraph(_ sender: UISwipeGestureRecognizer?) {
+        
+        guard let dotGraphContentView = dotGraphContentView, let percentSlider = percentSlider else { return }
+        let transitionDirection: UIView.AnimationOptions  = sender?.direction == .right ? .transitionFlipFromLeft : .transitionFlipFromRight
         if isDotGraphShowing {
-            UIView.transition(from: dotGraph, to: percentSlider, duration: 1, options: [.transitionFlipFromLeft, .showHideTransitionViews], completion: nil)
+            UIView.transition(from: dotGraphContentView, to: percentSlider, duration: 1, options: [transitionDirection, .showHideTransitionViews], completion: nil)
         } else {
-            UIView.transition(from: percentSlider, to: dotGraph, duration: 1, options: [.transitionFlipFromLeft, .showHideTransitionViews], completion: nil)
+            UIView.transition(from: percentSlider, to: dotGraphContentView, duration: 1, options: [transitionDirection, .showHideTransitionViews], completion: nil)
         }
         
         isDotGraphShowing = !isDotGraphShowing
@@ -85,7 +97,7 @@ class ViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Add to Daily routine", style: .default, handler: { (action) in
             if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
                 //Task.allItems?.append(Task(title: title))
-                self.currentDay?.tasks?.append(Task(title: title))
+                self.currentDay?.tasks.append(Task(title: title))
                 (self.collectionView?.cellForItem(at: IndexPath(row: Screen.daily.index, section: 0)) as? CollectionViewCell)?.refresh()
                 //Task.saveProjects()
                 History.save()
@@ -144,7 +156,7 @@ class ViewController: UIViewController {
         dotGraph?.graphValuesInPercents = currentWeekDays.map { $0.donePercent }
     }
     
-    private func addGestureRecogniser() {
+    private func addGestureRecognisers() {
         let rightRecogniser =  UIScreenEdgePanGestureRecognizer()
         rightRecogniser.addTarget(self, action: #selector(self.swipe(_:)))
         rightRecogniser.edges = .right
@@ -154,6 +166,14 @@ class ViewController: UIViewController {
         
         collectionView?.addGestureRecognizer(rightRecogniser)
         collectionView?.addGestureRecognizer(leftRecogniser)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(switchGraph(_:)))
+        swipeLeft.direction = .left
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(switchGraph(_:)))
+        swipeRight.direction = .right
+        
+        statsContainer?.addGestureRecognizer(swipeRight)
+        statsContainer?.addGestureRecognizer(swipeLeft)
     }
     
     private func setupSegmentedControl() {

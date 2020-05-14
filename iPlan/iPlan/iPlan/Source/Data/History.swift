@@ -19,7 +19,7 @@ class History {
     
     static func loadDays() {
         guard FileManager.default.fileExists(atPath: mainFilePath) else {
-            days = [Day]()
+            days = [Day(date: Date())]
             return
         }
         guard let data = NSData(contentsOfFile: mainFilePath) else { return }
@@ -30,8 +30,8 @@ class History {
             var days: [Day] = array.compactMap { Day(descriptor: $0) }
             
             if days.last?.date != DateTools.startOfTheDay(date: Date()) {
-                let tasks = days.last?.tasks?.compactMap { return  $0.copy() }
-                tasks?.forEach { $0.isDone = false }
+                let tasks = days.last?.tasks.compactMap { return  $0.copy() } ?? []
+                tasks.forEach { $0.isDone = false }
                 days.append(Day(date: Date(), tasks: tasks))
             }
             

@@ -13,7 +13,7 @@ class Goal: Item {
     static var allItems: [Goal]?
     
     static var donePercent: CGFloat {
-        guard let allItems = allItems else { return 0 }
+        guard let allItems = allItems, allItems.isEmpty == false else { return 0 }
         let doneCount: CGFloat = CGFloat(allItems.filter { $0.isDone == true }.count)
         return doneCount/CGFloat(allItems.count)
     }
