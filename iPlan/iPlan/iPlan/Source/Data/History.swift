@@ -35,6 +35,10 @@ class History {
                 days.append(Day(date: Date(), tasks: tasks))
             }
             
+            if let startOfTheFirstWeek = DateTools.startOfTheWeek(includingDate: days.first?.date), startOfTheFirstWeek !=  days.first?.date {
+                days.insert(Day(date: startOfTheFirstWeek), at: 0)
+            }
+            
             History.days = allDays(days: days)
         } catch {
             print(error)

@@ -20,7 +20,13 @@ class ViewController: UIViewController {
     @IBOutlet private var nextWeekButton: UIButton?
     
     private var currentScreen: Screen = .daily
-    private var currentDay: Day? { History.days?.last }
+    private var currentDay: Day?
+    private var currentDayIndex: Int = 0 {
+        didSet {
+            guard currentDayIndex < History.days?.count ?? 00, let day = History.days?[currentDayIndex] else { return }
+            currentDay = day
+        }
+    }
     private var swipeTriggered: Bool = false
     private var isDotGraphShowing: Bool = false
     
@@ -31,23 +37,43 @@ class ViewController: UIViewController {
         Goal.loadProjects()
         Wish.loadProjects()
         History.loadDays()
-        updateSlider()
-        updateDotGraph()
-        dotGraph?.maxNumberOfValues = 7
         
-        let startOfTheWeek = DateTools.startOfTheWeekString(includingDate: currentDay?.date)
-        let endOfTheWeek = DateTools.endOfTheWeekString(includingDate: currentDay?.date)
-        nextWeekButton?.setTitle(endOfTheWeek, for: .normal)
+        currentDayIndex = (History.days?.count ?? 1) - 1
+        dotGraph?.maxNumberOfValues = 7
+        dotGraph?.delegate = self
         nextWeekButton?.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
-        previousWeekButton?.setTitle(startOfTheWeek, for: .normal)
         previousWeekButton?.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         collectionView?.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
+        
+        reload()
     }
     
     @IBAction private func segmentedControlIndexChanged(_ sender: Any) {
         moveToIndex(segmentedControl?.selectedSegmentIndex)
+    }
+    
+    @IBAction func goToPreviousWeek(_ sender: Any) {
+        guard let currentDayGraphIndex = dotGraph?.selectedPointIndex else { return }
+        currentDayIndex -= currentDayGraphIndex + 1
+        reload()
+    }
+    @IBAction func goToNextWeek(_ sender: Any) {
+        guard let currentDayGraphIndex = dotGraph?.selectedPointIndex else { return }
+        currentDayIndex += 7 - currentDayGraphIndex 
+        reload()
+    }
+    
+    private func reload() {
+        let startOfTheWeek = DateTools.startOfTheWeekString(includingDate: currentDay?.date)
+        let endOfTheWeek = DateTools.endOfTheWeekString(includingDate: currentDay?.date)
+        nextWeekButton?.setTitle(endOfTheWeek, for: .normal)
+        previousWeekButton?.setTitle(startOfTheWeek, for: .normal)
+        updateSlider()
+        updateDotGraph()
+        dotGraph?.selectDot(atIndex: currentDayIndex % 7)
+        collectionView?.reloadData()
     }
     
     @objc private func switchGraph(_ sender: UISwipeGestureRecognizer?) {
@@ -235,5 +261,15 @@ extension ViewController: CollectionViewCellDelegate {
     func collectionViewCell(_ cell: CollectionViewCell, didSelectRow state: Bool, atIndexPath indexPath: IndexPath) {
         updateSlider()
         updateDotGraph()
+    }
+}
+
+// MARK: - DotGraphDelegate
+
+extension ViewController: DotGraphDelegate {
+    func dotGraph(_ graph: DotGraph, didSelectDot dotIndex: Int) {
+        let difference = dotIndex - graph.selectedPointIndex
+        currentDayIndex += difference
+        reload()
     }
 }

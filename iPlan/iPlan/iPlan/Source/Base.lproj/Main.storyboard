@@ -28,35 +28,29 @@
                                     <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qEx-2T-9E3">
                                         <rect key="frame" x="20" y="20" width="365" height="160"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ey1-s8-P7D">
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="8ei-VZ-RQz">
                                                 <rect key="frame" x="0.0" y="0.0" width="365" height="22"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="8ei-VZ-RQz">
-                                                        <rect key="frame" x="0.0" y="0.0" width="365" height="22"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8D-Db-cb9">
-                                                                <rect key="frame" x="0.0" y="0.0" width="182.5" height="22"/>
-                                                                <state key="normal" title="Button" image="chevron.compact.left" catalog="system">
-                                                                    <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </state>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wf-Az-ivd">
-                                                                <rect key="frame" x="182.5" y="0.0" width="182.5" height="22"/>
-                                                                <state key="normal" title="Button" image="chevron.compact.left" catalog="system">
-                                                                    <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </state>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceLeftToRight" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8D-Db-cb9">
+                                                        <rect key="frame" x="0.0" y="0.0" width="182.5" height="22"/>
+                                                        <state key="normal" title="Button" image="chevron.compact.left" catalog="system">
+                                                            <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="goToPreviousWeek:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6yW-Kb-q43"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wf-Az-ivd">
+                                                        <rect key="frame" x="182.5" y="0.0" width="182.5" height="22"/>
+                                                        <state key="normal" title="Button" image="chevron.compact.left" catalog="system">
+                                                            <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="goToNextWeek:" destination="BYZ-38-t0r" eventType="touchUpInside" id="81W-zh-CYA"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <constraints>
-                                                    <constraint firstItem="8ei-VZ-RQz" firstAttribute="leading" secondItem="ey1-s8-P7D" secondAttribute="leading" id="0Jw-ih-8WX"/>
-                                                    <constraint firstAttribute="bottom" secondItem="8ei-VZ-RQz" secondAttribute="bottom" id="5Ru-vD-gdI"/>
-                                                    <constraint firstAttribute="trailing" secondItem="8ei-VZ-RQz" secondAttribute="trailing" id="BnL-kU-ngZ"/>
-                                                    <constraint firstItem="8ei-VZ-RQz" firstAttribute="top" secondItem="ey1-s8-P7D" secondAttribute="top" id="HST-Pe-2BB"/>
-                                                </constraints>
-                                            </view>
+                                            </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mq5-TY-se7" customClass="DotGraph" customModule="iPlan" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="22" width="365" height="138"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -30,10 +30,10 @@ class DateTools {
     }
     
     static func startOfTheWeek(includingDate date: Date?) -> Date? {
-        let gregorian = Calendar(identifier: .gregorian)
         guard let date = date else { return nil }
-        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)) else { return nil }
-        return gregorian.date(byAdding: .day, value: 1, to: sunday)
+        var calendar = Calendar.autoupdatingCurrent
+        calendar.firstWeekday = 2
+        return calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)) ?? date
     }
     
     static func startOfTheWeekString(includingDate date: Date?) -> String? {
@@ -41,10 +41,8 @@ class DateTools {
     }
     
     static func endOfTheWeek(includingDate date: Date?) -> Date? {
-        let gregorian = Calendar(identifier: .gregorian)
-        guard let date = date else { return nil }
-        guard let sunday = gregorian.date(from: gregorian.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)) else { return nil }
-        return gregorian.date(byAdding: .day, value: 7, to: sunday)
+        guard let startOfTheWeek = startOfTheWeek(includingDate: date) else { return nil }
+        return Calendar.current.date(byAdding: .day, value: 6, to: startOfTheWeek)
     }
     
     static func endOfTheWeekString(includingDate date: Date?) -> String? {

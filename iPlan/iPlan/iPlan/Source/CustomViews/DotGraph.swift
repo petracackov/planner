@@ -115,7 +115,7 @@ class DotGraph: UIView {
         var points: [(location: CGPoint, value: CGFloat)] = []
         for (index, value) in graphValuesInPercents.enumerated() {
             let horizontalSpacing = graphWidth/CGFloat(self.maxNumberOfValues - 1)
-            points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset /* + labelSize*/ - graphHeight * value ), value))
+            points.append((CGPoint(x: horizontalSpacing * CGFloat(index) + offset, y: graphHeight + offset - graphHeight * value ), value))
         }
         return points
     }
@@ -123,6 +123,7 @@ class DotGraph: UIView {
     private func addPoints() {
         graphPointsViews.forEach { $0.removeFromSuperview() }
         
+        var views: [UIView] = []
         for (index, point) in graphPoints.enumerated() {
 
             let pointContainerView = UIView()
@@ -130,7 +131,7 @@ class DotGraph: UIView {
             pointContainerView.frame.size = CGSize(width: pointDiameter * 2, height: pointDiameter * 2)
             pointContainerView.layer.cornerRadius = pointContainerView.bounds.width/2
             pointContainerView.center = point.location
-            pointContainerView.backgroundColor = index == selectedPointIndex ? selectedColor : lineColor
+            pointContainerView.backgroundColor = index == selectedPointIndex ? selectedColor : .clear
 
             let pointView = UIView()
             pointView.backgroundColor = lineColor
@@ -139,9 +140,10 @@ class DotGraph: UIView {
             pointView.center = CGPoint(x: pointContainerView.bounds.width/2, y: pointContainerView.bounds.height/2)
 
             pointContainerView.addSubview(pointView)
-            graphPointsViews.append(pointContainerView)
+            views.append(pointContainerView)
             self.addSubview(pointContainerView)
         }
+        graphPointsViews = views
     }
     
     private func drawGraph(in rect: CGRect, context: CGContext?) {
