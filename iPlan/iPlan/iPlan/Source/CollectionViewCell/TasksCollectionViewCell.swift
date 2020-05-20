@@ -18,7 +18,11 @@ class TasksCollectionViewCell: UICollectionViewCell {
     
     weak var delegate: TasksCollectionViewCellDelegate?
     
-    var day: Day!
+    var day: Day! {
+        didSet {
+            tableView?.reloadData()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -52,6 +56,7 @@ extension TasksCollectionViewCell: UITableViewDelegate, UITableViewDataSource {
         day.tasks.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .left)
         day.save()
+        delegate?.tasksCollectionViewCell(self, didChangeDay: day)
     }
        
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

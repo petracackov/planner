@@ -57,12 +57,16 @@ class ViewController: UIViewController {
     
     @IBAction func goToPreviousWeek(_ sender: Any) {
         guard let currentDayGraphIndex = dotGraph?.selectedPointIndex else { return }
-        currentDayIndex -= currentDayGraphIndex + 1
+        let previousWeekIndex = currentDayIndex - currentDayGraphIndex - 1
+        guard previousWeekIndex >= 0 else { return }
+        currentDayIndex = previousWeekIndex
         reload()
     }
     @IBAction func goToNextWeek(_ sender: Any) {
         guard let currentDayGraphIndex = dotGraph?.selectedPointIndex else { return }
-        currentDayIndex += 7 - currentDayGraphIndex 
+        let nextWeekIndex = currentDayIndex + 7 - currentDayGraphIndex
+        guard nextWeekIndex <= History.days?.count ?? 1 - 1 else { return }
+        currentDayIndex = nextWeekIndex
         reload()
     }
     
@@ -78,16 +82,7 @@ class ViewController: UIViewController {
     }
     
     @objc private func switchGraph(_ sender: UISwipeGestureRecognizer?) {
-        
-        guard let dotGraphContentView = dotGraphContentView, let percentSlider = percentSlider else { return }
-        let transitionDirection: UIView.AnimationOptions  = sender?.direction == .right ? .transitionFlipFromLeft : .transitionFlipFromRight
-        if isDotGraphShowing {
-            UIView.transition(from: dotGraphContentView, to: percentSlider, duration: 1, options: [transitionDirection, .showHideTransitionViews], completion: nil)
-        } else {
-            UIView.transition(from: percentSlider, to: dotGraphContentView, duration: 1, options: [transitionDirection, .showHideTransitionViews], completion: nil)
-        }
-        
-        isDotGraphShowing = !isDotGraphShowing
+        switchGraph(direction: sender?.direction)
     }
     
     @objc private func swipe(_ sender: UIScreenEdgePanGestureRecognizer) {
@@ -120,33 +115,40 @@ class ViewController: UIViewController {
     }
         
     @objc func addItem() {
-        let alert = UIAlertController(title: "Add new item", message: nil, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Add to Daily routine", style: .default, handler: { (action) in
-            if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
-                self.currentDay?.tasks.append(Task(title: title))
-                (self.collectionView?.cellForItem(at: IndexPath(row: Screen.daily.index, section: 0)) as? CollectionViewCell)?.refresh()
-                History.save()
-                self.moveToIndex(Screen.daily.index)
-            }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Add to Goals", style: .default, handler: { (action) in
-            if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
-                Goal.allItems?.append(Goal(title: title))
-                (self.collectionView?.cellForItem(at: IndexPath(row: Screen.goals.index, section: 0)) as? CollectionViewCell)?.refresh()
-                Goal.saveProjects()
-                self.moveToIndex(Screen.goals.index)
-            }
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Add to Wish list", style: .default, handler: { (action) in
-            if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
-                Wish.allItems?.append(Wish(title: title))
-                (self.collectionView?.cellForItem(at: IndexPath(row: Screen.wish.index, section: 0)) as? CollectionViewCell)?.refresh()
-                Wish.saveProjects()
-                self.moveToIndex(Screen.wish.index)
-            }
-        }))
+        let alert: UIAlertController
+        switch currentScreen {
+        case .daily:
+             alert = UIAlertController(title: "Add new Task", message: nil, preferredStyle: .alert)
+             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) in
+                 if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
+                     self?.currentDay?.tasks.append(Task(title: title))
+                     //(self.collectionView?.cellForItem(at: IndexPath(row: Screen.daily.index, section: 0)) as? TasksCollectionViewCell)?.refresh()
+                     History.save()
+                    self?.reload()
+                 }
+             }))
+        case .goals:
+             alert = UIAlertController(title: "Add new Goal", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) in
+                if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
+                    Goal.allItems?.append(Goal(title: title))
+                    //(self.collectionView?.cellForItem(at: IndexPath(row: Screen.goals.index, section: 0)) as? CollectionViewCell)?.refresh()
+                    Goal.saveProjects()
+                    self?.reload()
+                }
+            }))
+        case .wish:
+            alert = UIAlertController(title: "Add new Wish", message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] (action) in
+                if let title = alert.textFields?.first?.text, title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false {
+                    Wish.allItems?.append(Wish(title: title))
+                    //(self.collectionView?.cellForItem(at: IndexPath(row: Screen.wish.index, section: 0)) as? CollectionViewCell)?.refresh()
+                    Wish.saveProjects()
+                    self?.reload()
+                }
+            }))
+            
+        }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
@@ -155,8 +157,22 @@ class ViewController: UIViewController {
         present(alert, animated:  true)
     }
         
+    private func switchGraph(direction: UISwipeGestureRecognizer.Direction?) {
+        guard currentScreen == .daily else { return }
+        guard let dotGraphContentView = dotGraphContentView, let percentSlider = percentSlider else { return }
+        let transitionDirection: UIView.AnimationOptions  = direction == .right ? .transitionFlipFromLeft : .transitionFlipFromRight
+        if isDotGraphShowing {
+            UIView.transition(from: dotGraphContentView, to: percentSlider, duration: 1, options: [transitionDirection, .showHideTransitionViews], completion: nil)
+        } else {
+            UIView.transition(from: percentSlider, to: dotGraphContentView, duration: 1, options: [transitionDirection, .showHideTransitionViews], completion: nil)
+        }
+        
+        isDotGraphShowing = !isDotGraphShowing
+    }
+    
     private func moveToIndex(_ index: Int?) {
         guard let index = index, index >= 0, index < Screen.all.count else { return }
+        if isDotGraphShowing { switchGraph(direction: .right)}
         segmentedControl?.selectedSegmentIndex = index
         collectionView?.selectItem(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: .centeredHorizontally)
         currentScreen = Screen.all[index]
@@ -268,11 +284,12 @@ extension ViewController {
 // MARK: - CollectionViewCellDelegate
 
 extension ViewController: CollectionViewCellDelegate {
-    func collectionViewCell(_ cell: CollectionViewCell, didSelectRow state: Bool, atIndexPath indexPath: IndexPath) {
+    func collectionViewCell(_ cell: CollectionViewCell, didSelectRow state: Bool, atIndexPath indexPath: IndexPath?) {
         updateSlider()
     }
 }
 
+// MARK: - TasksCollectionViewCellDelegate
 extension ViewController: TasksCollectionViewCellDelegate {
     func tasksCollectionViewCell(_ cell: TasksCollectionViewCell, didChangeDay day: Day) {
         currentDay = day

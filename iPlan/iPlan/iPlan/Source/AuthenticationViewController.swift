@@ -25,8 +25,8 @@ class AuthenticationViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //setupFaceID()
-        goToViewController()
+        setupFaceID()
+        //goToViewController()
     }
     
     @IBAction func useFaceID(_ sender: Any) {

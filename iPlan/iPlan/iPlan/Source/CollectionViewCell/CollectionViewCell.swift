@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CollectionViewCellDelegate: class {
-    func collectionViewCell(_ cell: CollectionViewCell, didSelectRow state: Bool, atIndexPath indexPath: IndexPath)
+    func collectionViewCell(_ cell: CollectionViewCell, didSelectRow state: Bool, atIndexPath indexPath: IndexPath?)
 }
 
 class CollectionViewCell: UICollectionViewCell {
@@ -36,9 +36,6 @@ class CollectionViewCell: UICollectionViewCell {
     func refresh() {
         switch type {
         case .daily:
-            // TODO:
-            //items = Task.allItems
-            //items = History.days?.last?.tasks
             return
         case .goals:
             items = Goal.allItems
@@ -48,16 +45,10 @@ class CollectionViewCell: UICollectionViewCell {
         tableView?.reloadData()
     }
     
+    // TODO: refactr so that there is no ifs
     private func save() {
         switch type {
         case .daily:
-//            Task.allItems = items as? [Task]
-//            Task.saveProjects()
-            // TODO:
-//            if let tasks = items as? [Task] {
-//                History.days?.last?.tasks = tasks
-//                History.save()
-//            }
             return
             
         case .goals:
@@ -93,6 +84,7 @@ extension CollectionViewCell: UITableViewDataSource, UITableViewDelegate {
         items?.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .left)
         save()
+        delegate?.collectionViewCell(self, didSelectRow: false, atIndexPath: nil)
     }
        
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
