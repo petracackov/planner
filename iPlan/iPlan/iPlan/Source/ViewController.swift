@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     private var currentDay: Day?
     private var currentDayIndex: Int = 0 {
         didSet {
-            guard currentDayIndex < History.days?.count ?? 00, let day = History.days?[currentDayIndex] else { return }
+            guard currentDayIndex < History.days?.count ?? 0, let day = History.days?[currentDayIndex] else { return }
             currentDay = day
         }
     }
@@ -46,6 +46,7 @@ class ViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         collectionView?.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "CollectionViewCell")
+        collectionView?.register(UINib(nibName: "TasksCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TasksCollectionViewCell")
         
         reload()
     }
@@ -217,10 +218,19 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-        cell.type = Screen.all[indexPath.row]
-        cell.delegate = self
-        return cell
+        let type = Screen.all[indexPath.row]
+        switch type {
+        case .goals, .wish:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
+            cell.type = type
+            cell.delegate = self
+            return cell
+        case .daily:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TasksCollectionViewCell", for: indexPath) as! TasksCollectionViewCell
+            cell.day = currentDay
+            cell.delegate = self
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -259,6 +269,13 @@ extension ViewController {
 
 extension ViewController: CollectionViewCellDelegate {
     func collectionViewCell(_ cell: CollectionViewCell, didSelectRow state: Bool, atIndexPath indexPath: IndexPath) {
+        updateSlider()
+    }
+}
+
+extension ViewController: TasksCollectionViewCellDelegate {
+    func tasksCollectionViewCell(_ cell: TasksCollectionViewCell, didChangeDay day: Day) {
+        currentDay = day
         updateSlider()
         updateDotGraph()
     }

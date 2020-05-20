@@ -37,5 +37,11 @@ class Day {
         return doneCount/CGFloat(tasks.count)
     }
     
+    func save() {
+        guard let index = History.days?.firstIndex(where: { $0 === self }) else { return }
+        History.days?[index] = self
+        History.save()
+    }
+    
 }
 

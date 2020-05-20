@@ -38,7 +38,8 @@ class CollectionViewCell: UICollectionViewCell {
         case .daily:
             // TODO:
             //items = Task.allItems
-            items = History.days?.last?.tasks
+            //items = History.days?.last?.tasks
+            return
         case .goals:
             items = Goal.allItems
         case .wish:
@@ -53,10 +54,11 @@ class CollectionViewCell: UICollectionViewCell {
 //            Task.allItems = items as? [Task]
 //            Task.saveProjects()
             // TODO:
-            if let tasks = items as? [Task] {
-                History.days?.last?.tasks = tasks
-                History.save()
-            }
+//            if let tasks = items as? [Task] {
+//                History.days?.last?.tasks = tasks
+//                History.save()
+//            }
+            return
             
         case .goals:
             Goal.allItems = items as? [Goal]
@@ -66,7 +68,7 @@ class CollectionViewCell: UICollectionViewCell {
             Wish.saveProjects()
         }
     }
-    
+ 
 }
 
 extension CollectionViewCell: UITableViewDataSource, UITableViewDelegate {

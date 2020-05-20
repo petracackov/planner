@@ -28,6 +28,8 @@
 		C0A4331F245597A6002E5ABC /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A4331E245597A6002E5ABC /* TestViewController.swift */; };
 		C0A433252455B671002E5ABC /* DateTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A433242455B671002E5ABC /* DateTools.swift */; };
 		C0A433272455B90B002E5ABC /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A433262455B90B002E5ABC /* History.swift */; };
+		C0DB6F9B24752BD3008B369E /* TasksCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DB6F9A24752BD3008B369E /* TasksCollectionViewCell.swift */; };
+		C0DB6F9D24752C6D008B369E /* TasksCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C0DB6F9C24752C6D008B369E /* TasksCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		C0A4331E245597A6002E5ABC /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		C0A433242455B671002E5ABC /* DateTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTools.swift; sourceTree = "<group>"; };
 		C0A433262455B90B002E5ABC /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
+		C0DB6F9A24752BD3008B369E /* TasksCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCollectionViewCell.swift; sourceTree = "<group>"; };
+		C0DB6F9C24752C6D008B369E /* TasksCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TasksCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +136,8 @@
 			children = (
 				C06E2BF2243B632D00B72558 /* CollectionViewCell.xib */,
 				C06E2BEF243B630600B72558 /* CollectionViewCell.swift */,
+				C0DB6F9C24752C6D008B369E /* TasksCollectionViewCell.xib */,
+				C0DB6F9A24752BD3008B369E /* TasksCollectionViewCell.swift */,
 				C06E2BF4243B63B400B72558 /* TableViewCell.xib */,
 				C06E2BED243B582700B72558 /* TableViewCell.swift */,
 			);
@@ -239,6 +245,7 @@
 				C06E2BDE243B532E00B72558 /* Assets.xcassets in Resources */,
 				C06E2BF3243B632D00B72558 /* CollectionViewCell.xib in Resources */,
 				C06E2BDC243B532B00B72558 /* Main.storyboard in Resources */,
+				C0DB6F9D24752C6D008B369E /* TasksCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +260,7 @@
 				C06E2BFC243BD94E00B72558 /* Task.swift in Sources */,
 				C06E2C02243BDE4700B72558 /* Item.swift in Sources */,
 				C06E2C04243CAA7D00B72558 /* AuthenticationViewController.swift in Sources */,
+				C0DB6F9B24752BD3008B369E /* TasksCollectionViewCell.swift in Sources */,
 				C06E2BF0243B630600B72558 /* CollectionViewCell.swift in Sources */,
 				C0A433252455B671002E5ABC /* DateTools.swift in Sources */,
 				C06E2BEC243B53EA00B72558 /* ViewController.swift in Sources */,
