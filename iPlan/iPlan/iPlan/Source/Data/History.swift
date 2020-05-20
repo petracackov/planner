@@ -80,14 +80,6 @@ class History {
         return allDays
     }
     
-//    private static func addMissingDates() {
-//        guard let days = days else { return }
-//        let allDates = allDays(days: days.compactMap { $0 })
-//        if allDates.count != days.count {
-//            History.days = allDates
-//        }
-//    }
-    
     static func daysInTheSameWeekAs(_ day: Day?) -> [Day]? {
         guard let day = day else { return nil }
         guard let historyDays = History.days else { return nil }
